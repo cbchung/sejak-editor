@@ -1,0 +1,11 @@
+{
+  "name": "js-base",
+  "version": "1.0.0",
+  "description": "sejak editor work space",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "c.b.chung",
+  "license": "ISC"
+}

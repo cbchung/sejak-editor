@@ -1,0 +1,25 @@
+{
+  "name": "js-base",
+  "description": "sejak editor work space",
+  "main": "index.js",
+  "authors": [
+    "c.b.chung"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "sejak",
+    "clabs",
+    "editor"
+  ],
+  "homepage": "https://github.com/cbchung/sejak-editor",
+  "moduleType": [
+    "globals"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
