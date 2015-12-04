@@ -1,43 +1,69 @@
 //Grunt is just JavaScript running in node, after all...
 module.exports = function(grunt) {
 
-  // All upfront config goes in a massive nested object.
-  grunt.initConfig({
-    // You can set arbitrary key-value pairs.
-    distFolder: 'dist',
-    // You can also set the value of a key as parsed JSON.
-    // Allows us to reference properties we declared in package.json.
-    pkg: grunt.file.readJSON('package.json'),
-    // Grunt tasks are associated with specific properties.
-    // these names generally match their npm package name.
-    concat: {
-      // Specify some options, usually specific to each plugin.
-      options: {
-        // Specifies string to be inserted between concatenated files.
-        separator: ';'
-      },
-      // 'dist' is what is called a "target."
-      // It's a way of specifying different sub-tasks or modes.
-      dist: {
-        // The files to concatenate:
-        // Notice the wildcard, which is automatically expanded.
-        src: ['scripts/*.js'],
-        // The destination file:
-        // Notice the angle-bracketed ERB-like templating,
-        // which allows you to reference other properties.
-        // This is equivalent to 'dist/main.js'.
-        dest: '<%= distFolder %>/main.js'
-        // You can reference any grunt config property you want.
-        // Ex: '<%= concat.options.separator %>' instead of ';'
-      }
-    }
-  }); // The end of grunt.initConfig
+	grunt.initConfig({
+	    distFolder: '../js',
+	    pkg: grunt.file.readJSON('package.json'),
 
-  // We've set up each task's configuration.
-  // Now actually load the tasks.
-  // This will do a lookup similar to node's require() function.
-  grunt.loadNpmTasks('grunt-contrib-concat');
+	    concat: {
+	    	options: {
+	    		// Specifies string to be inserted between concatenated files.
+	    		separator: ';'
+	    	},
+	    	dist: {
+	    		src: [
+	    		      'bower_components/angular/angular.min.js',
+	    		      'works/*.min.js'
+	    		],
+	    		dest: '<%= distFolder %>/<%= pkg.name %>.js'
+	    	}
+	    },
+	    
+	    uglify: {
+	    	options: {
+	    		banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n',
+//    			report: 'min',
+//                mangle: false
+	        },
+	        build: {
+//	        js: {
+	        	files: {
+	        		'works/clabsTest.min.js': 'works/ngmins-temporaries/clabsTest.js'
+	        	}
+	        }
+	    },
+	    ngmin: {
+//	    	controllers: {
+//	    		src: ['test/src/controllers/one.js'],
+//	    		dest: 'test/generated/controllers/one.js'
+//	    	},
+	    	directives: {
+	    	    expand: true,
+	    	    cwd: 'works/ngDriectives',
+	    	    src: ['*.js'],
+	    	    dest: 'works/ngmins-temporaries'
+	    	}
+    	},
+	    
+	    // compile less stylesheets to css -----------------------------------------
+	    less: {
+	    	build: {
+	    		files: {
+	    			'<%= distFolder %>/css/pretty.css': 'scripts/css/pretty.less'
+	    		}
+	    	}
+	    }
+	    
+	});
 
-  // Register our own custom task alias.
-  grunt.registerTask('build', ['concat']);
+	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-ngmin');
+
+	grunt.registerTask('build', ['concat']);
+	grunt.registerTask('default',['ngmin', 'uglify', 'build'])
 };

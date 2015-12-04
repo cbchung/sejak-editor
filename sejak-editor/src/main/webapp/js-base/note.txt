@@ -1,10 +1,13 @@
+#---------------------------------------------------------------------------------------------
 # Project 시작 (make package.json)
+#---------------------------------------------------------------------------------------------
 npm init
 #
 # npm install : dependency in package.json 패키지 인스톨 함.
 #
 #---------------------------------------------------------------------------------------------
-# 명령어
+# Bower
+# (명령어)
 #---------------------------------------------------------------------------------------------
 #bower search <dep> - search for a dependency in the Bower registry
 #bower install <dep>..<depN> - install one or more dependencies
@@ -20,4 +23,18 @@ bower init
 bower install angular
 
 # 
+#---------------------------------------------------------------------------------------------
+#grunt 
+#---------------------------------------------------------------------------------------------
 grunt init
+
+npm install grunt-contrib-jshint --save-dev
+npm install grunt-contrib-uglify --save-dev
+npm install grunt-contrib-less --save-dev
+npm install grunt-contrib-cssmin --save-dev
+npm install grunt-contrib-watch --save-dev
+npm install grunt-contrib-concat --save-dev
+npm install grunt-ngmin --save-dev
+#--------------------------------------------------------------------
+#
+# It's OK
