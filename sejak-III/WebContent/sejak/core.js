@@ -11,23 +11,27 @@
 				console.log('OK-complete:' + JSON.stringify(element));
 				
 				var data = element.h;
+				console.log('OK-complete-data:' + data);
 				var results = data.match(/\${\s*\w+\s*}/g);
 				for(var i in results){
+					console.log('rc>>>>>'+i + ":" + results[i]);
 					var v = results[i].replace("${", "").replace("}","").trim();
 					data=data.replace(results[i], element.scope[v]);
 				}
 				//
+				console.log('OK-complete-data-2:' + data);
 				var html = $.parseHTML( data );
-				$(html).find( "[lp]" ).each(function( index ) {
-//					console.log('loop-search:' + i + ":[" + $(this).attr('lp') + "]:" + $(this).text() );
+				$(html).find( "[list]" ).each(function( index ) {
+					console.log('loop-search:' + index + ":[" + $(this).attr('list') + "]:" + $(this).text() );
 					try{
 						var resContent = '';
-						var obj = eval("element.model." + $(this).attr('lp'));
+						var obj = eval("element.model." + $(this).attr('list'));
 						var content = $(this).html();
 						var results = content.match(/\{{\s*\w+\s*}}/g);
 						for(var idx in obj){
 							var item = content;
 							for(var i in results){
+								console.log('rc>>>>>'+i + ":" + results[i]);
 								var v = results[i].replace("{{", "").replace("}}","").trim();
 								item=item.replace(results[i], obj[idx][v]);
 							}
@@ -39,7 +43,7 @@
 				$(html).find( "[model]" ).each(function( index ) {
 					try{
 						var obj = eval("element.model." + $(this).attr('model'));
-//						console.log('model-search:' + i + ":" + $(this).attr('model') + "-" + obj);
+						console.log('model-search:' + index + ":" + $(this).attr('model') + "-" + obj);
 						$(this).text( obj );
 					}catch(e){console.log($(this).attr('model') + " is not defined");}
 				});
