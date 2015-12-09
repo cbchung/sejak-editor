@@ -3,9 +3,16 @@
  */
 
 Sejak = {
+	pathInfo : {
+		base : '',
+		controller : '',
+		viewer: ''
+	},
+	pathname : "/",
 	initModules : function(modules){
 		var path = window.location.pathname;
 		var pathname = path.substring(0,  path.lastIndexOf('/')+1);
+		this.pathname = pathname;
 		
 		this.tk.loadJS(pathname + 'sejak/core.js');
 		
@@ -14,6 +21,7 @@ Sejak = {
 		}
 	},
 	init : function(configApp){
+		if(configApp.path !== undefined) for(var k in configApp.path) this.pathInfo[k] = configApp.path[k];
 		this.initModules(configApp.modules);
 	},
 	module : {
@@ -31,12 +39,19 @@ Sejak = {
 	},
 	tk : {
 		loadCSS : function(href) {
-			var cssLink = $("<link rel='stylesheet' type='text/css' href='"+href+"'>");
-			$("head").append(cssLink); 
+			try{
+				var cssLink = $("<link rel='stylesheet' type='text/css' href='"+href+"'>");
+				$("head").append(cssLink); 
+			}catch(e){ console.log('loadCSS:' + e); }
 		},
 		loadJS : function(src) {
-		     var jsLink = $("<script type='text/javascript' src='"+src+"'>");
-		     $("head").append(jsLink); 
+			try{
+			     var jsLink = $("<script type='text/javascript' src='"+src+"'>");
+			     $("head").append(jsLink); 
+			}catch(e){ console.log('loadJS:' + e); }
+		},
+		loadHTML : function(url, e, s, f){
+			$.get( url, { "_": $.now() }, function( data ){ s(e, data); }, 'text').fail(function(){ if(fail !== undefined) f(); });
 		}
 	}
 }
