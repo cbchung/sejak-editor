@@ -11,18 +11,14 @@
 				console.log('OK-complete:' + JSON.stringify(element));
 				
 				var data = element.h;
-				console.log('OK-complete-data:' + data);
 				var results = data.match(/\${\s*\w+\s*}/g);
 				for(var i in results){
-					console.log('rc>>>>>'+i + ":" + results[i]);
 					var v = results[i].replace("${", "").replace("}","").trim();
 					data=data.replace(results[i], element.scope[v]);
 				}
 				//
-				console.log('OK-complete-data-2:' + data);
 				var html = $.parseHTML( data );
 				$(html).find( "[list]" ).each(function( index ) {
-					console.log('loop-search:' + index + ":[" + $(this).attr('list') + "]:" + $(this).text() );
 					try{
 						var resContent = '';
 						var obj = eval("element.model." + $(this).attr('list'));
@@ -31,7 +27,6 @@
 						for(var idx in obj){
 							var item = content;
 							for(var i in results){
-								console.log('rc>>>>>'+i + ":" + results[i]);
 								var v = results[i].replace("{{", "").replace("}}","").trim();
 								item=item.replace(results[i], obj[idx][v]);
 							}
@@ -46,6 +41,18 @@
 						console.log('model-search:' + index + ":" + $(this).attr('model') + "-" + obj);
 						$(this).text( obj );
 					}catch(e){console.log($(this).attr('model') + " is not defined");}
+				});
+				$(html).find( "[event]" ).each(function( index ) {
+					var data = $(this).attr('event').split(";");
+					for(var idx in data){
+						try{
+							var parse = data[idx].split(":");
+							$(this).bind(parse[0], function(){
+//								console.log('event'+parse[0]);
+								eval("element.scope." + parse[1].trim());
+							});
+						}catch(e){console.log($(this).attr('model') + " is not defined");}
+					}
 				});
 				console.log("----------------------------------------------");
 				element.e.html(html);
