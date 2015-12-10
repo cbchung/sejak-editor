@@ -96,7 +96,6 @@
 				setTimeout(tmCheck, 100);
 			},
 			htmlCB : function(idx, data){
-//				module.elements[idx].e.html(data);
 				module.elements[idx].h=data;
 				module.elements[idx].loaded.template = true;
 				console.log('htmlCB-OK:'+idx);
@@ -120,7 +119,17 @@
 					/*
 					 * element = { e:DOM.e, ... }
 					 */
-					module.elements.push({ e:$(this) });
+					var ne = $('<div/>');
+					$(this).each(function() {
+						$.each(this.attributes, function() {
+							if(this.specified && this.name != 'name') $(ne).attr(this.name, this.value);
+						});
+					});
+					$(ne).addClass('sejak ' + $(this).attr('name'));
+					$(ne).attr('id', 'sj-'+ $(this).attr('name'));
+					
+					$(this).replaceWith(ne);
+					module.elements.push({ e: ne });
 					try{ 
 						module.handler.load(index, eval("obj = " + $(this).text()));
 					} catch(e){ console.log('error:' + e); }
