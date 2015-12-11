@@ -3,10 +3,8 @@
  */
 
 Sejak = {
-	pathInfo : {
-		base : '',
-		controller : '',
-		viewer: ''
+	resources : {
+		basePath : ''
 	},
 	pathname : "/",
 	initModules : function(modules){
@@ -20,8 +18,14 @@ Sejak = {
 			console.log('customer module is defined');
 		}
 	},
+	initSys: function(){
+		window.onhashchange = this.hashchange;
+	},
 	init : function(configApp){
-		if(configApp.path !== undefined) for(var k in configApp.path) this.pathInfo[k] = configApp.path[k];
+		if(configApp.resources !== undefined) for(var k in configApp.resources) this.resources[k] = configApp.resources[k];
+		if(this.resources.basePath.slice(-1) != '/') this.resources.basePath += '/';
+		
+		this.initSys();
 		this.initModules(configApp.modules);
 	},
 	module : {
@@ -53,6 +57,13 @@ Sejak = {
 		loadHTML : function(url, e, s, f){
 			$.get( url, { "_": $.now() }, function( data ){ s(e, data); }, 'text').fail(function(){ if(fail !== undefined) f(); });
 		}
+	},
+	hashchange : function(){
+		console.log('in hashchange:' + window.location.hash);
+	},
+	setHash : function(path){
+		var hash = window.location.hash;
+		window.location.hash = '#' + path;
 	}
 }
 

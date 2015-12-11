@@ -63,18 +63,18 @@
 				
 				if(options.template !== undefined){
 					if(options.template.match(/^http/i) || options.template.match(/^\//)) Sejak.tk.loadHTML(options.template, el, this.htmlCB);
-					else Sejak.tk.loadHTML(Sejak.pathname + Sejak.pathInfo.viewer + '/' + options.template, el, this.htmlCB);
+					else Sejak.tk.loadHTML(Sejak.pathname + Sejak.resources.basePath + options.template, el, this.htmlCB);
 				}
 				else element.loaded.template = true;
 				if(options.controller !== undefined){
 					console.log('startCo');
 					if(options.controller.match(/^http/i) || options.controller.match(/^\//)) Sejak.tk.loadJS(options.controller);
-					else Sejak.tk.loadHTML(Sejak.pathname + Sejak.pathInfo.controller + '/' + options.controller, el, this.controllCB);
+					else Sejak.tk.loadHTML(Sejak.pathname + Sejak.resources.basePath + options.controller, el, this.controllCB);
 				}
 				else element.loaded.controller = true;
 				if(options.style !== undefined){
 					if(options.style.match(/^http/i) || options.style.match(/^\//)) Sejak.tk.loadCSS(options.style);
-					else Sejak.tk.loadCSS(Sejak.pathname + Sejak.pathInfo.base + '/' + options.style);
+					else Sejak.tk.loadCSS(Sejak.pathname + Sejak.resources.basePath + options.style);
 				}
 				
 				/*
@@ -130,9 +130,22 @@
 					
 					$(this).replaceWith(ne);
 					module.elements.push({ e: ne });
-					try{ 
-						module.handler.load(index, eval("obj = " + $(this).text()));
+					
+					var hpath = $(this).attr('hpath');
+					if(hpath === undefined) {
+						console.log('hpath not defined');
+						return;
+					}
+					var hpath = hpath.replace(/\./g, '/');
+					try{ 					
+//						module.handler.load(index, eval("obj = " + $(this).text()));
+						module.handler.load(index, {
+							template : hpath + ".html",
+							controller : hpath + ".js",
+							style : hpath + ".css"
+						});
 					} catch(e){ console.log('error:' + e); }
+
 				});
 				
 				Sejak.module.initCB(module.name);

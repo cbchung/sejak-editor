@@ -7,16 +7,38 @@
 <script type="text/javascript" src="sejak/sejak.js"></script>
 <script type="text/javascript">
 SejakApp =  {
-	path : {
-		base : 'contents',
-		controller : 'contents/controller',
-		viewer: 'contents/view'
+	resources : {
+		basePath : 'contents'
 	}
 }
 </script>
 </head>
 <body>
 	<h3 class="red">This red color is from dynamically loaded css file</h3>
+	<!-- 
 	<sejak name="first" class="test my">{ template : "first.html", controller : "first.js", model : "my.widget" }</sejak>
+	 -->
+	<sejak name="first" class="test my" hpath="first" murl="sampleModel/first.json"></sejak>
+	
+	<!-- 
+	  -- hpath: 1. '.' to '/'
+	  			  2. set defulat 'hash' with name:hpath > second:.testing.first
+	  			  3. loading the hash-element
+	  			  4. loading given-model
+	  			  5. send model-data to hash-element
+	  			  6. complete
+	  --	  			  
+	<sejak name="second" class="test mysecond" hpath=".testing.first" murl="sampleModel/first.json"></sejak>
+	 -->
+	
+	<!--  -->
+	<!-- 1. 우선 sejak의 {template:....}를 하나의 url로 지정해야 한다. -->
+	
+	<!-- testing hash -->
+	<button onclick="Sejak.setHash('/sample')">hash to "#/sample"</button><br/>
+	<button onclick="Sejak.setHash('/test')">hash to "#/test"</button><br/>
+	<a href="#/sample:rrrd.123&test:ppp-sss">to sample</a><br/>
+	<a href="#/test">to test</a><br/>
+	<a href="/#/test?paramer=2345">to test</a>
 </body>
 </html>
