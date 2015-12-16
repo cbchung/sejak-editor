@@ -11,7 +11,15 @@
 				   load : function(el){
 					   this.setHeight(el, function(height){
 						   console.log('OK callback called-' + height);
-						   console.log('body-height:' + $("body").outerHeight());
+					   });
+					   /*
+					    * add window.resize event listener
+					    */
+					   var moduleObject = this;
+					   $(window).resize(function(){
+						   moduleObject.setHeight(el,function(height){
+							   console.log('OK callback called-' + height);
+						   });
 					   });
 				   },
 				   setHeight : function(n, cb){
