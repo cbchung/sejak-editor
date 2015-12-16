@@ -41,7 +41,17 @@
 						   });
 					   }
 				   }
-			   }  
+			   },
+			   {
+				   name : 'layout-horizontal',
+				   load : function(el){
+					   $(el).children().each(function(){
+						   $(this).css('display', 'inline-block');
+						   $(this).css('vertical-align', 'top');
+					   });
+					   $(window).trigger('resize');
+				   }
+			   }
 				
 			],
 			init : function(){
