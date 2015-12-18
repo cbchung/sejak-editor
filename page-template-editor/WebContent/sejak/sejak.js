@@ -15,6 +15,7 @@ Sejak = {
 		this.tk.loadJS(pathname + 'sejak/core.js');
 		this.tk.loadJS(pathname + 'sejak/premitives.js');
 		this.tk.loadJS(pathname + 'sejak/stylers.js');
+		this.tk.loadJS(pathname + 'sejak/attributes.js');
 		
 		if(modules !== undefined){
 			console.log('customer module is defined');
@@ -38,9 +39,12 @@ Sejak = {
 		initCB : function(name){
 			console.log('CB called with ' + name);
 			console.log('sejak.module=' + JSON.stringify(this.pool));
-			for(var i in this.pool) if(this.pool[i].name == name){
-				this.pool[i].handler.test();
-			}
+//			if(name == 'stylers') Sejak.tk.loadJS(Sejak.pathname + 'sejak/attributes.js');
+
+//			for(var i in this.pool) if(this.pool[i].name == name){
+//				handler = this.pool[i].handler.test || this.pool[i].test;
+//				handler();
+//			}
 		}
 	},
 	tk : {
