@@ -1,0 +1,8 @@
+#
+# issues.txt
+#
+[model="sj-menu:/static/top-menu.json"]
+-. data-model은 두 개의 필드로 구분, 
+  첫 번째는 controller로 사전정의된 데이터 모델을 정의하고 운용한다. 
+  두 번쨰는 이 모델에 적용되는 데이터의 URL로써 실제자료를 제공한다.
+-. model은 이 적용되는 tag-list는 ( 'container', 외 필요시 개별 적용등록 함 )로 적용된다.
